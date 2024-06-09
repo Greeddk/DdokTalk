@@ -12,6 +12,8 @@ extension Color {
     static let Error = Color(hex: "E9666B")
     static let Inactive = Color(hex: "AAAAAA")
     
+    static let kakaoYello = Color(hex: "FEE500")
+    
     static let TextPrimary = Color(hex: "1C1C1C")
     static let TextSecondary = Color(hex: "606060")
     
