@@ -11,7 +11,8 @@ struct DTTextField: View {
     private let infoLabel: String
     private let placeHolder: String
     private var width: CGFloat = 345
-    @State var isButton: Bool = false
+    @State private var isButton: Bool = false
+    @State private var isSecureField: Bool = false
     @State private var text: String
     private var buttonAction: (() -> Void)? = nil
     
@@ -27,13 +28,22 @@ struct DTTextField: View {
                 .setFont(.title2)
             
             HStack(spacing: 12) {
-                TextField(placeHolder, text: $text)
-                    .setFont(.body)
-                    .frame(width: width - 24, height: 44)
-                    .padding(.horizontal, 12)
-                    .background(.white)
-                    .cornerRadius(8)
-                
+                if isSecureField {
+                    SecureField(placeHolder, text: $text)
+                        .setFont(.body)
+                        .frame(width: width - 24, height: 44)
+                        .padding(.horizontal, 12)
+                        .background(.white)
+                        .cornerRadius(8)
+                } else {
+                    TextField(placeHolder, text: $text)
+                        .setFont(.body)
+                        .frame(width: width - 24, height: 44)
+                        .padding(.horizontal, 12)
+                        .background(.white)
+                        .cornerRadius(8)
+                }
+               
                 if isButton {
                     Button {
                         buttonAction?()
@@ -53,4 +63,11 @@ struct DTTextField: View {
         view.buttonAction = action
         return view
     }
+    
+    func makeSecureField() -> some View {
+        var view = self
+        view._isSecureField = State(initialValue: true)
+        return view
+    }
+    
 }
