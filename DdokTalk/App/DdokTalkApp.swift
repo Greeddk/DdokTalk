@@ -12,6 +12,7 @@ struct DdokTalkApp: App {
     var body: some Scene {
         WindowGroup {
             OnboardingView()
+                .onAppear(perform: UIApplication.shared.hideKeyboard)
         }
     }
 }
