@@ -13,6 +13,7 @@ struct DdokTalkApp: App {
         WindowGroup {
             OnboardingView()
                 .onAppear(perform: UIApplication.shared.hideKeyboard)
+                .preferredColorScheme(.light)
         }
     }
 }
