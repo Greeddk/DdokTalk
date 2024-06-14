@@ -9,20 +9,19 @@ import SwiftUI
 
 struct RoundView: View {
     private var size: Size = .edit
-    private var color: Color
+    private var color: Color = Color.Point
     private var imageName: DefaultImageStyle?
     private var image: Image?
+    @State var hasCamera = false
 
-    init(size: Size, color: Color, imageName: DefaultImageStyle) {
+    init(size: Size, imageName: DefaultImageStyle) {
         self.size = size
-        self.color = color
         self.imageName = imageName
         self.image = nil
     }
     
-    init(size: Size, color: Color, image: Image) {
+    init(size: Size, image: Image) {
         self.size = size
-        self.color = color
         self.image = image
         self.imageName = nil
     }
@@ -41,34 +40,54 @@ struct RoundView: View {
     }
     
     var body: some View {
-        if let image = image {
-            image
-                .resizable()
-                .scaledToFill()
-                .frame(width: size.rawValue, height: size.rawValue)
-                .clipped()
-                .cornerRadius(8)
-        } else if let imageName = imageName {
-            ZStack(alignment: .bottom) {
+        ZStack(alignment: .bottom) {
+            if image == nil {
                 RoundedRectangle(cornerRadius: 8)
                     .frame(width: size.rawValue, height: size.rawValue)
                     .foregroundStyle(color)
-                Image(imageName.rawValue)
-                    .resizable()
-                    .frame(width: imageName == .workspace ? 48 : size.rawValue, height: imageName == .workspace ? 60 : size.rawValue)
-                    .clipped()
-                    .cornerRadius(8)
-                if imageName == .workspace {
-                    Image("Camera")
-                        .resizable()
-                        .frame(width: 22, height: 22)
-                        .offset(x: 30, y: 5)
-                }
+            }
+            
+            if let image = image {
+                createImageView(image)
+            } else if let imageName = imageName {
+                createImageView(Image(imageName.rawValue))
+            }
+            if hasCamera {
+                cameraIcon()
             }
         }
+    }
+    
+    private func createImageView(_ image: Image) -> some View {
+        image
+            .resizable()
+            .scaledToFill()
+            .frame(width: imageName == .workspace ? 48 : size.rawValue,
+                   height: imageName == .workspace ? 60 : size.rawValue)
+            .clipped()
+            .cornerRadius(8)
+    }
+    
+    private func cameraIcon() -> some View {
+        Image("Camera")
+            .resizable()
+            .frame(width: 22, height: 22)
+            .offset(x: 30, y: 5)
+    }
+    
+    func addCameraIcon() -> some View {
+        var view = self
+        view._hasCamera = State(initialValue: true)
+        return view
     }
 }
 
 #Preview {
-    RoundView(size: .edit, color: Color.Point, imageName: .noPhoto)
+    Group {
+        RoundView(size: .edit, imageName: .noPhoto)
+        RoundView(size: .edit, imageName: .workspace)
+            .addCameraIcon()
+        RoundView(size: .edit, image: Image("Profile"))
+            .addCameraIcon()
+    }
 }
