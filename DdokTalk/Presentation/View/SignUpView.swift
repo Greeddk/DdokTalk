@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var text = ""
     
     init() {
@@ -28,14 +29,16 @@ struct SignUpView: View {
                         .padding(.top, 24)
                     Spacer().frame(height: 60)
                 }
-                joinButton()
+                BottomButton(title: "가입하기", buttonColor: Color.Inactive) {
+                    
+                }
             }
             .navigationTitle("회원가입")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        
+                        presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image("close")
                     }
@@ -60,26 +63,6 @@ struct SignUpView: View {
             DTTextField(infoLabel: "비밀번호 확인", placeHolder: "비밀번호를 한 번 더 입력하세요", text: text)
                 .makeSecureField()
         }
-    }
-    
-    private func joinButton() -> some View {
-        ZStack {
-            Color.BackgroundPrimary
-            VStack(spacing: 0) {
-                Button {
-                    // Email 로그인 액션
-                } label: {
-                    HStack(spacing: 8) {
-                        Text("가입하기")
-                    }
-                }
-                .buttonStyle(DTButtonStyle(size: CGSize(width: 323, height: 44), backgroundColor: Color.Inactive, fontColor: .white))
-            }
-            .padding(.vertical, 12)
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: 68)
-        .ignoresSafeArea(.keyboard)
     }
     
 }

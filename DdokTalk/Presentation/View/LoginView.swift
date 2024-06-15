@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var text = ""
     
     init() {
@@ -28,14 +29,16 @@ struct LoginView: View {
                         .padding(.top, 24)
                     Spacer()
                 }
-                joinButton()
+                BottomButton(title: "로그인", buttonColor: Color.Inactive) {
+                    
+                }
             }
             .navigationTitle("이메일 로그인")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        
+                        presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image("close")
                     }
@@ -53,25 +56,6 @@ struct LoginView: View {
         }
     }
     
-    private func joinButton() -> some View {
-        ZStack {
-            Color.BackgroundPrimary
-            VStack(spacing: 0) {
-                Button {
-                    // Email 로그인 액션
-                } label: {
-                    HStack(spacing: 8) {
-                        Text("가입하기")
-                    }
-                }
-                .buttonStyle(DTButtonStyle(size: CGSize(width: 323, height: 44), backgroundColor: Color.Inactive, fontColor: .white))
-            }
-            .padding(.vertical, 12)
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: 68)
-        .ignoresSafeArea(.keyboard)
-    }
 }
 
 #Preview {
