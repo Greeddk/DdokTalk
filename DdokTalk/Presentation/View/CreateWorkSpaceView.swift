@@ -25,7 +25,7 @@ struct CreateWorkSpaceView: View {
             ZStack(alignment: .bottom) {
                 Color.BackgroundPrimary.ignoresSafeArea()
                 inputDataView()
-                BottomButton(title: "완료", buttonColor: Color.Inactive) {
+                BottomButton(title: "완료", isActive: true) {
                     
                 }
             }
@@ -49,8 +49,8 @@ struct CreateWorkSpaceView: View {
             RoundView(size: .edit, imageName: .workspace)
                 .addCameraIcon()
                 .padding(.top, 24)
-            DTTextField(infoLabel: "워크스페이스 이름", placeHolder: "워크스페이스 이름을 입력하세요 (필수)", text: text)
-            DTTextField(infoLabel: "워크스페이스 설명", placeHolder: "워크스페이스를 설명하세요 (옵션)", text: text)
+            DTTextField(infoLabel: "워크스페이스 이름", placeHolder: "워크스페이스 이름을 입력하세요 (필수)", text: $text)
+            DTTextField(infoLabel: "워크스페이스 설명", placeHolder: "워크스페이스를 설명하세요 (옵션)", text: $text)
                 .padding(.top, 8)
             Spacer()
         }

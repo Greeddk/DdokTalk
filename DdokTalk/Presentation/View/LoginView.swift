@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @Environment(\.presentationMode) var presentationMode
+    @StateObject private var viewModel = LoginViewModel()
     @State private var text = ""
     
     init() {
@@ -29,7 +30,7 @@ struct LoginView: View {
                         .padding(.top, 24)
                     Spacer()
                 }
-                BottomButton(title: "로그인", buttonColor: Color.Inactive) {
+                BottomButton(title: "로그인", isActive: viewModel.output.buttonEnable) {
                     
                 }
             }
@@ -50,8 +51,8 @@ struct LoginView: View {
     
     private func inputView() -> some View {
         VStack(spacing: 24) {
-            DTTextField(infoLabel: "이메일", placeHolder: "이메일을 입력하세요", text: text)
-            DTTextField(infoLabel: "비밀번호", placeHolder: "비밀번호를 입력하세요", text: text)
+            DTTextField(infoLabel: "이메일", placeHolder: "이메일을 입력하세요", text: $viewModel.emailText)
+            DTTextField(infoLabel: "비밀번호", placeHolder: "비밀번호를 입력하세요", text: $viewModel.passwordText)
                 .makeSecureField()
         }
     }

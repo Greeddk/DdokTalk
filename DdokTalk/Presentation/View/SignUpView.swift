@@ -29,7 +29,7 @@ struct SignUpView: View {
                         .padding(.top, 24)
                     Spacer().frame(height: 60)
                 }
-                BottomButton(title: "가입하기", buttonColor: Color.Inactive) {
+                BottomButton(title: "가입하기", isActive: false) {
                     
                 }
             }
@@ -51,16 +51,16 @@ struct SignUpView: View {
     
     private func inputInfoViews() -> some View {
         VStack(spacing: 24) {
-            DTTextField(infoLabel: "이메일", placeHolder: "이메일을 입력하세요", text: text)
+            DTTextField(infoLabel: "이메일", placeHolder: "이메일을 입력하세요", text: $text)
                 .showButton {
                     print("hello")
                 }
-            DTTextField(infoLabel: "닉네임", placeHolder: "닉네임을 입력하세요", text: text)
-            DTTextField(infoLabel: "연락처", placeHolder: "전화번호를 입력하세요", text: text)
+            DTTextField(infoLabel: "닉네임", placeHolder: "닉네임을 입력하세요", text: $text)
+            DTTextField(infoLabel: "연락처", placeHolder: "전화번호를 입력하세요", text: $text)
                 .keyboardType(.numberPad)
-            DTTextField(infoLabel: "비밀번호", placeHolder: "비밀번호를 입력하세요", text: text)
+            DTTextField(infoLabel: "비밀번호", placeHolder: "비밀번호를 입력하세요", text: $text)
                 .makeSecureField()
-            DTTextField(infoLabel: "비밀번호 확인", placeHolder: "비밀번호를 한 번 더 입력하세요", text: text)
+            DTTextField(infoLabel: "비밀번호 확인", placeHolder: "비밀번호를 한 번 더 입력하세요", text: $text)
                 .makeSecureField()
         }
     }

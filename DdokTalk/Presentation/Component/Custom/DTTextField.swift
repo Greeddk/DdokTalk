@@ -13,13 +13,13 @@ struct DTTextField: View {
     private var width: CGFloat = 345
     @State private var isButton: Bool = false
     @State private var isSecureField: Bool = false
-    @State private var text: String
+    @Binding private var text: String
     private var buttonAction: (() -> Void)? = nil
     
-    init(infoLabel: String, placeHolder: String, text: String) {
+    init(infoLabel: String, placeHolder: String, text: Binding<String>) {
         self.infoLabel = infoLabel
         self.placeHolder = placeHolder
-        self._text = State(initialValue: text)
+        self._text = text
     }
     
     var body: some View {
