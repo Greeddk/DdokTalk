@@ -14,18 +14,21 @@ struct DTTextField: View {
     @State private var isButton: Bool = false
     @State private var isSecureField: Bool = false
     @Binding private var text: String
+    @Binding private var isValidate: Bool
     private var buttonAction: (() -> Void)? = nil
     
-    init(infoLabel: String, placeHolder: String, text: Binding<String>) {
+    init(infoLabel: String, placeHolder: String, text: Binding<String>, isCorrect: Binding<Bool>) {
         self.infoLabel = infoLabel
         self.placeHolder = placeHolder
         self._text = text
+        self._isValidate = isCorrect
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(infoLabel)
                 .setFont(.title2)
+                .foregroundStyle(isValidate ? Color.black : Color.red)
             
             HStack(spacing: 12) {
                 if isSecureField {
