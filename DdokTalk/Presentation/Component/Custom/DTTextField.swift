@@ -12,16 +12,18 @@ struct DTTextField: View {
     private let placeHolder: String
     private var width: CGFloat = 345
     @State private var isButton: Bool = false
+    @Binding private var isButtonActive: Bool
     @State private var isSecureField: Bool = false
     @Binding private var text: String
     @Binding private var isValidate: Bool
     private var buttonAction: (() -> Void)? = nil
     
-    init(infoLabel: String, placeHolder: String, text: Binding<String>, isCorrect: Binding<Bool>) {
+    init(infoLabel: String, placeHolder: String, text: Binding<String>, isCorrect: Binding<Bool>, isButtonActive: Binding<Bool> = .constant(false)) {
         self.infoLabel = infoLabel
         self.placeHolder = placeHolder
         self._text = text
         self._isValidate = isCorrect
+        self._isButtonActive = isButtonActive
     }
     
     var body: some View {
@@ -53,15 +55,17 @@ struct DTTextField: View {
                     } label: {
                         Text("중복 확인")
                     }
-                    .buttonStyle(DTButtonStyle(size: CGSize(width: 100, height: 44), backgroundColor: Color.Inactive, fontColor: .white))
+                    .disabled(!isButtonActive)
+                    .buttonStyle(DTButtonStyle(size: CGSize(width: 100, height: 44), backgroundColor: isButtonActive ? Color.Point : Color.Inactive, fontColor: .white))
                 }
             }
         }
     }
     
-    func showButton(action: @escaping () -> Void) -> some View {
+    func showButton(_ isActive: Binding<Bool>, action: @escaping () -> Void) -> some View {
         var view = self
         view._isButton = State(initialValue: true)
+        view._isButtonActive = isActive
         view.width = 233
         view.buttonAction = action
         return view
