@@ -9,34 +9,32 @@ import SwiftUI
 import PopupView
 
 struct OnboardingView: View {
-    @State private var showMainView = false
-    @State private var showBottomSheet = false
-    @State private var showSignUpView = false
-    @State private var showLoginView = false
+    @StateObject private var viewModel = OnboardingViewModel()
     
     var body: some View {
         VStack(spacing: 0) {
             SplashView()
-            .popup(isPresented: $showBottomSheet) {
-                bottomSheet()
-                    .frame(height: 290)
-            } customize: {
-                $0
-                    .type(.toast)
-                    .position(.bottom)
-                    .appearFrom(.bottom)
-                    .animation(.spring)
-                    .dragToDismiss(true)
-                    .backgroundColor(.black.opacity(0.5))
-            }
-            .sheet(isPresented: $showSignUpView) {
-                SignUpView()
-                    .setSheet()
-            }
-            .sheet(isPresented: $showLoginView) {
-                LoginView()
-                    .setSheet()
-            }
+                .popup(isPresented: $viewModel.output.showBottomSheet) {
+                    bottomSheet()
+                        .frame(height: 290)
+                } customize: {
+                    $0
+                        .type(.toast)
+                        .position(.bottom)
+                        .appearFrom(.bottom)
+                        .animation(.spring)
+                        .closeOnTapOutside(true)
+                        .dragToDismiss(true)
+                        .backgroundColor(.black.opacity(0.5))
+                }
+                .sheet(isPresented: $viewModel.output.showSignUpView) {
+                    SignUpView()
+                        .setSheet()
+                }
+                .sheet(isPresented: $viewModel.output.showLoginView) {
+                    LoginView()
+                        .setSheet()
+                }
         }
     }
     
@@ -60,11 +58,11 @@ struct OnboardingView: View {
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     withAnimation {
-                        showMainView = true
+                        viewModel.action(.showMainView)
                     }
                 }
             }
-            if showMainView {
+            if viewModel.output.showMainView {
                 startButton()
             }
         }
@@ -72,7 +70,7 @@ struct OnboardingView: View {
     
     private func startButton() -> some View {
         Button {
-            showBottomSheet = true
+            viewModel.action(.showBottomSheet(true))
         } label: {
             Text("시작하기")
         }
@@ -96,7 +94,7 @@ struct OnboardingView: View {
                 .padding(.top, 6)
             VStack(spacing: 16) {
                 Button {
-                    // Apple 로그인 액션
+                    viewModel.action(.loginByApple)
                 } label: {
                     HStack(spacing: 8) {
                         Image("Apple")
@@ -104,6 +102,7 @@ struct OnboardingView: View {
                     }
                 }
                 .buttonStyle(DTButtonStyle(size: CGSize(width: 323, height: 44), backgroundColor: .black, fontColor: .white))
+                
                 Button {
                     // Kakao 로그인 액션
                 } label: {
@@ -114,8 +113,8 @@ struct OnboardingView: View {
                 }
                 .buttonStyle(DTButtonStyle(size: CGSize(width: 323, height: 44), backgroundColor: .kakaoYello, fontColor: .black))
                 Button {
-                    self.showBottomSheet = false
-                    self.showLoginView = true
+                    viewModel.action(.showBottomSheet(false))
+                    viewModel.action(.showLogionView(true))
                 } label: {
                     HStack(spacing: 8) {
                         Image("Email")
@@ -126,8 +125,8 @@ struct OnboardingView: View {
                 HStack(spacing: 4) {
                     Text("또는")
                     Button {
-                        self.showBottomSheet = false
-                        self.showSignUpView = true
+                        viewModel.action(.showBottomSheet(false))
+                        viewModel.action(.showSignUpView(true))
                     } label: {
                         Text("새롭게 회원가입 하기")
                     }
