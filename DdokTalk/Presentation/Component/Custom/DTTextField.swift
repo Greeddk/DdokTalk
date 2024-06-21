@@ -35,6 +35,7 @@ struct DTTextField: View {
             HStack(spacing: 12) {
                 if isSecureField {
                     SecureField(placeHolder, text: $text)
+                        .textInputAutocapitalization(.never)
                         .setFont(.body)
                         .frame(width: width - 24, height: 44)
                         .padding(.horizontal, 12)
@@ -42,6 +43,7 @@ struct DTTextField: View {
                         .cornerRadius(8)
                 } else {
                     TextField(placeHolder, text: $text)
+                        .textInputAutocapitalization(.never)
                         .setFont(.body)
                         .frame(width: width - 24, height: 44)
                         .padding(.horizontal, 12)
@@ -77,4 +79,12 @@ struct DTTextField: View {
         return view
     }
     
+}
+
+#Preview {
+    Group {
+        @State var text = ""
+        @State var value = true
+        DTTextField(infoLabel: "이메일", placeHolder: "email 입력", text: $text, isCorrect: $value)
+    }
 }
