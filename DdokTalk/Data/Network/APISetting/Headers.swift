@@ -9,4 +9,5 @@ import Foundation
 
 enum Headers: String {
     case refreshToken = "RefreshToken"
+    case sesacKey = "SesacKey"
 }

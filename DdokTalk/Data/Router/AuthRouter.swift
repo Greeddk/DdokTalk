@@ -90,21 +90,22 @@ extension AuthRouter: TargetType {
     var headers: [String: String]? {
         switch self {
         case .join:
-            return nil
+            return [Headers.sesacKey.rawValue: APIConfig.sesacKey.rawValue]
         case .validation:
-            return nil
+            return [Headers.sesacKey.rawValue: APIConfig.sesacKey.rawValue]
         case .login:
-            return nil
+            return [Headers.sesacKey.rawValue: APIConfig.sesacKey.rawValue]
         case .loginKakao:
-            return nil
+            return [Headers.sesacKey.rawValue: APIConfig.sesacKey.rawValue]
         case .loginApple:
-            return nil
+            return [Headers.sesacKey.rawValue: APIConfig.sesacKey.rawValue]
         case .logout:
-            return nil
+            return [Headers.sesacKey.rawValue: APIConfig.sesacKey.rawValue]
         case .deviceToken:
-            return nil
+            return [Headers.sesacKey.rawValue: APIConfig.sesacKey.rawValue]
         case .refresh:
-            return [Headers.refreshToken.rawValue: ""]
+            return [Headers.sesacKey.rawValue: APIConfig.sesacKey.rawValue,
+                    Headers.refreshToken.rawValue: ""]
         }
     }
 }
